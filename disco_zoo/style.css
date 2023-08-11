@@ -1,0 +1,32 @@
+
+html {
+    height: 100%;
+}
+  
+body {
+    margin: 20;
+    display: flex;
+    flex-wrap: wrap;
+  
+    /* This centers our sketch horizontally. */
+    justify-content: center; 
+}
+
+canvas {
+    outline: thick double;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 10;
+}
+
+
+.animals {
+    text-align: justify;
+}
+
+.animals input {
+    margin: 0 5 0 15;
+    
+}
