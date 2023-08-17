@@ -3,106 +3,118 @@ const width = 700;
 const height = 700;
 const sq_size = (width - 6 * spacing) / 5;
 
-const names_1 = ['Sheep', 'Pig', 'Rabbit', 'Horse', 'Cow', 'Unicorn'];
-const names_2 = ['Kangaroo', 'Platypus', 'Crocodile', 'Koala', 'Cockatoo', 'Tiddalik'];
-const names_3 = ['Zebra', 'Hippo', 'Giraffe', 'Lion', 'Elephant', 'Gryphon'];
-const names_4 = ['Bear', 'Skunk', 'Beaver', 'Moose', 'Fox', 'Sasquatch'];
-const names_5 = ['Penguin', 'Seal', 'Muskox', 'Polar Bear', 'Walrus', 'Yeti'];
-const names_6 = ['Monkey', 'Toucan', 'Gorilla', 'Panda', 'Tiger', 'Phoenix'];
-const names_7 = ['Diplodocus', 'Stegosaurus', 'Raptor', 'T-Rex', 'Triceratops', 'Dragon'];
-const names_8 = ['Wooly Rhinoceros', 'Giant Sloth', 'Dire Wolf', 'Sabertooth Tiger', 'Wooly Mammoth', 'Akhlut'];
-const names_9 = ['Raccoon', 'Pigeon', 'Rat', 'Squirrel', 'Opossum', 'Sewer Turtle'];
-const names_10 = ['Goat', 'Cougar', 'Elk', 'Eagle', 'Coyote', 'Aatxe'];
-const names_11 = ['Moonicorn', 'Lunar Tick', 'Moonkey', 'Luna Moth', 'Tribble', 'Jade Rabbit'];
-const names_12 = ['Rock', 'Marsmot', 'Marsmoset', 'Rover', 'Martian', 'Marsmallow'];
+const names_1 = ['Sheep', 'Pig', 'Rabbit', 'Horse', 'Cow', 'Unicorn', 'Chicken'];
+const names_2 = ['Kangaroo', 'Platypus', 'Crocodile', 'Koala', 'Cockatoo', 'Tiddalik', 'Echidna'];
+const names_3 = ['Zebra', 'Hippo', 'Giraffe', 'Lion', 'Elephant', 'Gryphon', 'Rhinoceros'];
+const names_4 = ['Bear', 'Skunk', 'Beaver', 'Moose', 'Fox', 'Sasquatch', 'Otter'];
+const names_5 = ['Penguin', 'Seal', 'Muskox', 'Polar Bear', 'Walrus', 'Yeti', 'Snowy Owl'];
+const names_6 = ['Monkey', 'Toucan', 'Gorilla', 'Panda', 'Tiger', 'Phoenix', 'Lemur'];
+const names_7 = ['Diplodocus', 'Stegosaurus', 'Raptor', 'T-Rex', 'Triceratops', 'Dragon', 'Ankylosaurus'];
+const names_8 = ['Wooly Rhinoceros', 'Giant Sloth', 'Dire Wolf', 'Sabertooth Tiger', 'Wooly Mammoth', 'Akhlut', 'Yukon Camel'];
+const names_9 = ['Raccoon', 'Pigeon', 'Rat', 'Squirrel', 'Opossum', 'Sewer Turtle', 'Chipmunk'];
+const names_10 = ['Goat', 'Cougar', 'Elk', 'Eagle', 'Coyote', 'Aatxe', 'Pika'];
+const names_11 = ['Moonkey', 'Lunar Tick', 'Tribble', 'Moonicorn', 'Luna Moth', 'Jade Rabbit', 'Babmoon'];
+const names_12 = ['Rock', 'Marsmot', 'Marsmoset', 'Rover', 'Martian', 'Marsmallow', 'Marsten'];
 const animal_names = [names_1, names_2, names_3, names_4, names_5, names_6, names_7, names_8, names_9, names_10, names_11, names_12];
 const areas = ['Farm', 'Outback', 'Savanna', 'Northern', 'Polar', 'Jungle', 'Jurassic', 'Ice Age', 'City', 'Mountain', 'Moon', 'Mars'];
 
 const animal_patterns = [
-    [
-        [[0, 0], [1, 0], [2, 0], [3, 0]],
-        [[0, 0], [1, 0], [0, 1], [1, 1]],
-        [[0, 0], [0, 1], [0, 2], [0, 3]],
-        [[0, 0], [0, 1], [0, 2]],
-        [[0, 0], [1, 0], [2, 0]],
-        [[0, 0], [1, 1], [2, 1]]
-    ],[
-        [[0, 0], [1, 1], [2, 2], [3, 3]],
-        [[0, 0], [1, 0], [1, 1], [2, 1]],
-        [[0, 0], [1, 0], [2, 0], [3, 0]],
-        [[0, 0], [1, 0], [1, 1]],
-        [[0, 0], [1, 1], [1, 2]],
-        [[1, 0], [0, 1], [2, 1]]
-    ],[
-        [[1, 0], [0, 1], [2, 1], [1, 2]],
-        [[0, 0], [2, 0], [0, 2], [2, 2]],
-        [[0, 0], [0, 1], [0, 2], [0, 3]],
-        [[0, 0], [1, 0], [2, 0]],
-        [[0, 0], [1, 0], [0, 1]],
-        [[0, 0], [2, 0], [1, 1]]
-    ],[
-        [[0, 0], [1, 0], [1, 1], [1, 2]],
-        [[1, 0], [2, 0], [0, 1], [1, 1]],
-        [[2, 0], [0, 1], [1, 1], [2, 2]],
-        [[0, 0], [2, 0], [1, 1]],
-        [[0, 0], [1, 0], [2, 1]],
-        [[0, 0], [0, 1]]
-    ],[
-        [[1, 0], [1, 1], [0, 2], [2, 2]],
-        [[0, 0], [1, 1], [3, 1], [2, 2]],
-        [[0, 0], [1, 0], [0, 1], [2, 1]],
-        [[0, 0], [2, 0], [2, 1]],
-        [[0, 0], [1, 1], [2, 1]],
-        [[0, 0], [0, 3]]
-    ],[
-        [[0, 0], [2, 0], [1, 1], [3, 1]],
-        [[1, 0], [0, 1], [1, 2], [1, 3]],
-        [[0, 0], [2, 0], [0, 1], [2, 1]],
-        [[2, 0], [0, 1], [2, 2]],
-        [[0, 0], [2, 0], [3, 0]],
-        [[0, 0], [2, 2]]
-    ],[
-        [[0, 0], [1, 1], [2, 1], [1, 2]],
-        [[1, 0], [2, 0], [0, 1], [3, 1]],
-        [[0, 0], [1, 0], [1, 1], [2, 2]],
-        [[0, 0], [0, 3], [1, 3]],
-        [[0, 0], [2, 1], [0, 2]],
-        [[0, 0], [2, 1]]
-    ],[
-        [[2, 0], [0, 1], [3, 1], [1, 2]],
-        [[0, 0], [2, 1], [0, 2], [2, 2]],
-        [[1, 0], [0, 1], [3, 1], [1, 2]],
-        [[0, 0], [2, 1], [1, 2]],
-        [[1, 0], [0, 1], [2, 2]],
-        [[2, 0], [0, 1], [2, 2]]
-    ],[
-        [[0, 0], [2, 0], [0, 1], [3, 1]],
-        [[0, 0], [1, 1], [1, 2], [2, 2]],
-        [[0, 0], [1, 0], [1, 1], [3, 1]],
-        [[2, 0], [0, 1], [1, 2]],
-        [[0, 0], [0, 1], [2, 1]],
-        [[0, 0], [1, 0]]
-    ],[
-        [[0, 0], [0, 1], [1, 1], [2, 1]],
-        [[0, 0], [1, 1], [0, 2], [2, 2]],
-        [[0, 0], [2, 0], [1, 1], [2, 1]],
-        [[0, 0], [0, 1], [1, 2]],
-        [[0, 0], [1, 0], [2, 1]],
-        [[2, 0], [0, 1]]
-    ],[
-        [[0, 0], [0, 1], [1, 1]],
-        [[1, 0], [1, 2], [0, 3], [2, 3]],
-        [[0, 0], [0, 1], [2, 1], [2, 2]],
-        [[0, 0], [2, 0], [1, 3]],
-        [[1, 0], [0, 1], [1, 1], [2, 1]],
-        [[0, 0], [1, 2]]
-    ],[
-        [[0, 0], [1, 0], [0, 1], [1, 1]],
-        [[1, 0], [1, 1], [0, 2], [1, 2]],
-        [[0, 0], [2, 0], [2, 1], [1, 2]],
-        [[1, 0], [0, 1], [2, 1]],
-        [[0, 0], [2, 0], [1, 1]],
-        [[0, 0], [0, 3]]
+    [ // farm
+        [[0, 0], [1, 0], [2, 0], [3, 0]],       // Sheep
+        [[0, 0], [1, 0], [0, 1], [1, 1]],       // Pig
+        [[0, 0], [0, 1], [0, 2], [0, 3]],       // Rabbit
+        [[0, 0], [0, 1], [0, 2]],               // Horse
+        [[0, 0], [1, 0], [2, 0]],               // Cow
+        [[0, 0], [1, 1], [2, 1]],               // Unicorn
+        [[2, 0], [1, 1], [0, 2]]                // Chicken
+    ], [ // outback
+        [[0, 0], [1, 1], [2, 2], [3, 3]],       // Kangaroo
+        [[0, 0], [1, 0], [1, 1], [2, 1]],       // Platypus
+        [[0, 0], [1, 0], [2, 0], [3, 0]],       // Crocodile
+        [[0, 0], [1, 0], [1, 1]],               // Koala
+        [[0, 0], [1, 1], [1, 2]],               // Cockatoo
+        [[1, 0], [0, 1], [2, 1]],               // Tiddalik
+        [[0, 1], [1, 1], [2, 0]]                // Echidna
+    ], [ // savannah
+        [[1, 0], [0, 1], [2, 1], [1, 2]],       // Zebra
+        [[0, 0], [2, 0], [0, 2], [2, 2]],       // Hippo
+        [[0, 0], [0, 1], [0, 2], [0, 3]],       // Giraffe
+        [[0, 0], [1, 0], [2, 0]],               // Lion
+        [[0, 0], [1, 0], [0, 1]],               // Elephant
+        [[0, 0], [2, 0], [1, 1]],               // Gryphon
+        [[0, 1], [1, 0], [1, 2]]                // Rhinoceros
+    ],[ // northern
+        [[0, 0], [1, 0], [1, 1], [1, 2]],       // Bear
+        [[1, 0], [2, 0], [0, 1], [1, 1]],       // Skunk
+        [[2, 0], [0, 1], [1, 1], [2, 2]],       // Beaver
+        [[0, 0], [2, 0], [1, 1]],               // Moose
+        [[0, 0], [1, 0], [2, 1]],               // Fox
+        [[0, 0], [0, 1]],                       // Sasquatch
+        [[0, 0], [0, 1], [1, 1]]                // Otter
+    ],[ // polar
+        [[1, 0], [1, 1], [0, 2], [2, 2]],       // Penguin
+        [[0, 0], [1, 1], [3, 1], [2, 2]],       // Seal
+        [[0, 0], [1, 0], [0, 1], [2, 1]],       // Muskox
+        [[0, 0], [2, 0], [2, 1]],               // Polar Bear
+        [[0, 0], [1, 1], [2, 1]],               // Walrus
+        [[0, 0], [0, 3]],                       // Yeti
+        [[0, 0], [1, 0], [1, 1]]                // Snowy Owl
+    ],[ // jungle
+        [[0, 0], [2, 0], [1, 1], [3, 1]],       // Monkey
+        [[1, 0], [0, 1], [1, 2], [1, 3]],       // Toucan
+        [[0, 0], [2, 0], [0, 1], [2, 1]],       // Gorilla
+        [[2, 0], [0, 1], [2, 2]],               // Panda
+        [[0, 0], [2, 0], [3, 0]],               // Tiger
+        [[0, 0], [2, 2]],                       // Phoenix
+        [[0, 0], [1, 1], [0, 2]]                // Lemur
+    ],[ // jurassic
+        [[0, 0], [1, 1], [2, 1], [1, 2]],       // Diplodocus
+        [[1, 0], [2, 0], [0, 1], [3, 1]],       // Stegosaurus
+        [[0, 0], [1, 0], [1, 1], [2, 2]],       // Raptor
+        [[0, 0], [0, 3], [1, 3]],               // T-Rex
+        [[0, 0], [2, 1], [0, 2]],               // Triceratops
+        [[0, 0], [2, 1]],                       // Dragon
+        [[0, 1], [2, 0], [2, 1]]                // Ankylosaurus
+    ],[ // ice age
+        [[2, 0], [0, 1], [3, 1], [1, 2]],       // Wooly Rhinoceros
+        [[0, 0], [2, 1], [0, 2], [2, 2]],       // Giant Sloth
+        [[1, 0], [0, 1], [3, 1], [1, 2]],       // Dire Wolf
+        [[0, 0], [2, 1], [1, 2]],               // Sabertooth Tiger
+        [[1, 0], [0, 1], [2, 2]],               // Wooly Mammoth
+        [[2, 0], [0, 1], [2, 2]],               // Akhlut
+        [[2, 0], [0, 1], [3, 2]]                // Yukon Camel
+    ],[ // city
+        [[0, 0], [2, 0], [0, 1], [3, 1]],       // Raccoon
+        [[0, 0], [1, 1], [1, 2], [2, 2]],       // Pigeon
+        [[0, 0], [1, 0], [1, 1], [3, 1]],       // Rat
+        [[2, 0], [0, 1], [1, 2]],               // Squirrel
+        [[0, 0], [0, 1], [2, 1]],               // Opossum
+        [[0, 0], [1, 0]],                       // Sewer Turtle
+        [[1, 0], [0, 1], [3, 1]]                // Chipmunk
+    ],[ // mountain
+        [[0, 0], [0, 1], [1, 1], [2, 1]],       // Goat
+        [[0, 0], [1, 1], [0, 2], [2, 2]],       // Cougar
+        [[0, 0], [2, 0], [1, 1], [2, 1]],       // Elk
+        [[0, 0], [0, 1], [1, 2]],               // Eagle
+        [[0, 0], [1, 0], [2, 1]],               // Coyote
+        [[2, 0], [0, 1]],                       // Aatxe
+        [[0, 0], [2, 0], [2, 1]]                // Pika
+    ],[ // moon
+        [[0, 0], [0, 1], [2, 1], [2, 2]],       // Moonkey
+        [[1, 0], [1, 2], [0, 3], [2, 3]],       // Lunar Tick
+        [[1, 0], [0, 1], [1, 1], [2, 1]],       // Tribble
+        [[0, 0], [0, 1], [1, 1]],               // Moonicorn
+        [[0, 0], [2, 0], [1, 3]],               // Luna Moth
+        [[0, 0], [1, 2]],                       // Jade Rabbit
+        [[1, 0], [2, 1], [0, 2]]                // Babmoon
+    ],[ // mars
+        [[0, 0], [1, 0], [0, 1], [1, 1]],       // Rock
+        [[1, 0], [1, 1], [0, 2], [1, 2]],       // Marsmot
+        [[0, 0], [2, 0], [2, 1], [1, 2]],       // Marsmoset
+        [[1, 0], [0, 1], [2, 1]],               // Rover
+        [[0, 0], [2, 0], [1, 1]],               // Martian
+        [[0, 0], [0, 3]],                       // Marsmallow
+        [[0, 0], [2, 0], [3, 1]]                // Marsten
     ]
 ];
 
