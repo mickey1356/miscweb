@@ -171,7 +171,7 @@ function checkboxEvent() {
         }
     }
 
-    computeProbabilities();
+    compute();
 }
 
 function selectArea() {
@@ -181,97 +181,111 @@ function selectArea() {
     reset();
 }
 
-function computeProbabilities() {
+function computeProbs(cur_grid_state, tmp_grid_state) {
     animal_sel_valids = [];
     highest_animal_probs = [];
     highest_prob = -1;
 
-    let anim_100 = [];
+    // iterate over the selected animals supposedly present in the grid
+    for (let ai = 0; ai < animal_indices_sel.length; ai++) {
+        // reset highest probability
+        highest_animal_probs[ai] = -1;
+        // get the pattern for this animal
+        let animal_index = animal_indices_sel[ai];
+        let animal_pattern = animal_patterns[area_index][animal_index];
+        let valid_starts = 0;
 
-    while (true) {
-        let new100 = false;
+        // reset probability
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                grid[j][i][ai] = 0;
+            }
+        }
 
-        for (let ai = 0; ai < animal_indices_sel.length; ai++) {
-            if (!anim_100.includes(ai)) {
-                    
-                highest_animal_probs[ai] = -1;
-                // get the corresponding pattern
-                let animal_index = animal_indices_sel[ai];
-                let animal_pattern = animal_patterns[area_index][animal_index];
-                let valid_starts = 0;
-                // reset the probability computations for this animal
-                for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        grid[j][i][ai] = 0;
-                    }
-                }
-
-                // check if the grid_state contains any squares already
-                let must_overlap = false;
-                let n_overlaps = 0
-                for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        let k = grid_state[j][i];
-                        if (k - 2 == ai) {
-                            must_overlap = true;
-                            n_overlaps++;
-                        }
-                    }
-                }
-
-                // compute possible squares that a pattern can be
-                for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        let okay = true;
-                        let overlaps = 0;
-                        for (let k = 0; k < animal_pattern.length; k++) {   
-                            let xoff = animal_pattern[k][0], yoff = animal_pattern[k][1];
-                            let nx = i + xoff, ny = j + yoff;
-                            if (nx >= 5 || ny >= 5 || (grid_state[ny][nx] != 0 && grid_state[ny][nx] - 2 != ai)) {
-                                okay = false;
-                                break;
-                            }
-                            for (let l = 0; l < anim_100.length; l++) {
-                                if (grid[ny][nx][anim_100[l]] == animal_sel_valids[l]) {
-                                    okay = false;
-                                    break;
-                                }
-                            }
-                            if (!okay) break;
-                            if (grid_state[ny][nx] - 2 == ai) {
-                                overlaps++;
-                            }
-                        }
-                        if (okay && (!must_overlap || (must_overlap && overlaps == n_overlaps))) {
-                            valid_starts++;
-                            for (let k = 0; k < animal_pattern.length; k++) {   
-                                let xoff = animal_pattern[k][0], yoff = animal_pattern[k][1];
-                                let nx = i + xoff, ny = j + yoff;
-                                grid[ny][nx][ai] = (grid[ny][nx][ai] || 0) + 1
-                            }
-                        }
-                    }
-                }
-                animal_sel_valids[ai] = valid_starts;
-
-                // check if this results in a 100% chance
-                for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        if (grid[j][i][ai] == valid_starts) {
-                            new100 = true;
-                            anim_100.push(ai);
-                            console.log('yes');
-                        }
-                    }
+        // check if this animal needs to overlap certain squares
+        let must_overlap = false;
+        let n_overlaps = 0
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                // grid_state uses 0, 1 as ??? and None states, respectively, so offset by 2
+                let m = cur_grid_state[j][i];
+                let n = tmp_grid_state[j][i];
+                if (m - 2 == ai || n - 2 == ai) {
+                    must_overlap = true;
+                    n_overlaps++;
                 }
             }
         }
 
-        if (!new100) break;
+        // test each square if it can be a starting square
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                let okay = true;
+                // count overlapping squares to make sure we overlap all squares
+                let overlaps = 0;
+                // iterate over the offsets in the pattern
+                for (let k = 0; k < animal_pattern.length; k++) {
+                    let xoff = animal_pattern[k][0], yoff = animal_pattern[k][1];
+                    let nx = i + xoff, ny = j + yoff;
+                    if (nx >= 5 || ny >= 5) {
+                        okay = false;
+                        break;
+                    }
+                    let cur_state = cur_grid_state[ny][nx];
+                    let tmp_state = tmp_grid_state[ny][nx];
+                    let cur_wrong_overlap = (cur_state != 0 && cur_state - 2 != ai);
+                    let tmp_wrong_overlap = (tmp_state != 0 && tmp_state - 2 != ai);
+                    if (cur_wrong_overlap || tmp_wrong_overlap) {
+                        okay = false;
+                        break;
+                    }
+                    if (cur_state - 2 == ai || tmp_state - 2 == ai) {
+                        overlaps++;
+                    }
+                }
+
+                if (okay && (!must_overlap || (must_overlap && overlaps == n_overlaps))) {
+                    valid_starts++;
+                    for (let k = 0; k < animal_pattern.length; k++) {
+                        let xoff = animal_pattern[k][0], yoff = animal_pattern[k][1];
+                        let nx = i + xoff, ny = j + yoff;
+                        grid[ny][nx][ai] = (grid[ny][nx][ai] || 0) + 1
+                    }
+                }
+            }
+        }
+        animal_sel_valids[ai] = valid_starts;
     }
 
+    // iterate over each animal to see if we have probabilities that are 100%
+    let changed = false;
+    for (let ai = 0; ai < animal_indices_sel.length; ai++) {
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                // check if this grid has 100% probs
+                if (grid[j][i][ai] == animal_sel_valids[ai]) {
+                    // if so, ensure that cur_grid and tmp_grid is 0 (to avoid repeating)
+                    if (cur_grid_state[j][i] == 0 && tmp_grid_state[j][i] == 0) {
+                        // set tmp_grid_state to this exact animal
+                        tmp_grid_state[j][i] = ai + 2;
+                        changed = true;
+                    }
+                }
+            }
+        }
+    }
+    if (changed) computeProbs(cur_grid_state, tmp_grid_state);
+}
 
-    // find those with the highest probabilities
+function compute() {
+    let tmp_grid = [];
+    // reset tmp_grid
+    for (let i = 0; i < 5; i++) {
+        tmp_grid[i] = [0, 0, 0, 0, 0];
+    }
+    // call recursive function
+    computeProbs(grid_state, tmp_grid);
+    // compute global probs
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
             if (grid_state[j][i] == 0) {
@@ -356,7 +370,14 @@ function draw() {
                 if (computed) {
                     textSize(9);
                     for (let k = 0; k < animal_indices_sel.length; k++) {
+                        if (grid_probs[j][i][k] == highest_animal_probs[k] && grid_probs[j][i][k] > 0) {
+                            textSize(10);
+                            textStyle(BOLD);
+                            fill(255, 0, 0);
+                        }
                         text(animal_names[area_index][animal_indices_sel[k]] + ': ' + grid_probs[j][i][k] + '%', i * (spacing + sq_size) + offset, j * (spacing + sq_size) + offset + k * spacing);
+                        textStyle(NORMAL);
+                        fill(0, 0, 0);
                     }
 
                     textSize(12);
@@ -412,5 +433,5 @@ function mouseClicked() {
             }
         }
     }
-    computeProbabilities();
+    compute();
 }
