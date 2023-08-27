@@ -10,7 +10,7 @@ const names_4 = ['Bear', 'Skunk', 'Beaver', 'Moose', 'Fox', 'Sasquatch', 'Otter'
 const names_5 = ['Penguin', 'Seal', 'Muskox', 'Polar Bear', 'Walrus', 'Yeti', 'Snowy Owl'];
 const names_6 = ['Monkey', 'Toucan', 'Gorilla', 'Panda', 'Tiger', 'Phoenix', 'Lemur'];
 const names_7 = ['Diplodocus', 'Stegosaurus', 'Raptor', 'T-Rex', 'Triceratops', 'Dragon', 'Ankylosaurus'];
-const names_8 = ['Wooly Rhinoceros', 'Giant Sloth', 'Dire Wolf', 'Sabertooth Tiger', 'Wooly Mammoth', 'Akhlut', 'Yukon Camel'];
+const names_8 = ['Wooly Rhino', 'Giant Sloth', 'Dire Wolf', 'Sabertooth Tiger', 'Mammoth', 'Akhlut', 'Yukon Camel'];
 const names_9 = ['Raccoon', 'Pigeon', 'Rat', 'Squirrel', 'Opossum', 'Sewer Turtle', 'Chipmunk'];
 const names_10 = ['Goat', 'Cougar', 'Elk', 'Eagle', 'Coyote', 'Aatxe', 'Pika'];
 const names_11 = ['Moonkey', 'Lunar Tick', 'Tribble', 'Moonicorn', 'Luna Moth', 'Jade Rabbit', 'Babmoon'];
@@ -374,6 +374,10 @@ function draw() {
                             textSize(10);
                             textStyle(BOLD);
                             fill(255, 0, 0);
+                        } else if (grid_probs[j][i][k] == 100) {
+                            textSize(10);
+                            textStyle(BOLD);
+                            fill(0, 0, 255);
                         }
                         text(animal_names[area_index][animal_indices_sel[k]] + ': ' + grid_probs[j][i][k] + '%', i * (spacing + sq_size) + offset, j * (spacing + sq_size) + offset + k * spacing);
                         textStyle(NORMAL);
